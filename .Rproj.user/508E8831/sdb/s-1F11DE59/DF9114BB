@@ -1,0 +1,16 @@
+{
+    "contents" : "require(shiny)\nrequire(wordcloud)\nload('quatrgrams_model.RData',.GlobalEnv)\nload('ngrams_model.RData',.GlobalEnv)\nsource('Predict_func.R')\nsource('Predict_func2.R')\nshinyServer(function(input, output) {\n    dataInput <- reactive(predictNgrams(input$entry))\n    \n    output$top1 <- renderText({\n        paste(\"Top 1:\", input$entry, dataInput()[1])\n    })\n    output$top2 <- renderText({\n        paste(\"Top 2:\", input$entry, dataInput()[2])\n    })\n    output$top3 <- renderText({\n        paste(\"Top 3:\", input$entry, dataInput()[3])\n    })\n    output$top4 <- renderText({\n        paste(\"Top 4:\", input$entry, dataInput()[4])\n    })\n    output$top5 <- renderText({\n        paste(\"Top 5:\", input$entry, dataInput()[5])\n    })\n    \n    output$text <- renderText({\n        dataInput()\n    })\n    output$sent <- renderText({\n        input$entry\n    })\n    \n    # Define a reactive expression for the document term matrix\n    # terms <- reactive(predictWordcloud(input$entry))\n    terms <- reactive({\n        input$update\n        isolate({predictWordcloud(input$entry)})\n    })\n    # Make the wordcloud drawing predictable during a session\n    wordcloud_rep <- repeatable(wordcloud)\n    #output$wordCloud <- renderPlot({\n        #v <- terms()\n        #wordcloud_rep(v[,2], v[,1], max.words=input$max, scale=c(4,1),\n                      #colors=brewer.pal(4, \"Dark2\"))\n    #})\n    \n    output$modelTable = renderDataTable({\n        Quatrgrams_models\n    }, options = list(lengthMenu = c(5, 10, 20), pageLength = 5))\n    \n    withProgress(message = 'Loading Data ...', value = NULL, {\n        Sys.sleep(0.01)\n        dat <- data.frame(x = numeric(0), y = numeric(0))\n        withProgress(message = 'App Initializing', detail = \"part 0\", value = 0, {\n            for (i in 1:10) {\n                dat <- rbind(dat, data.frame(x = rnorm(1), y = rnorm(1)))\n                incProgress(0.1, detail = paste(\":\", i*10,\"%\"))\n                Sys.sleep(0.01)\n            }\n        })\n        \n        # Increment the top-level progress indicator\n        incProgress(0.5)\n    })\n})\n",
+    "created" : 1428183149468.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "885379929",
+    "id" : "DF9114BB",
+    "lastKnownWriteTime" : 1428244481,
+    "path" : "D:/RFiles/Finale_shiny_app/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

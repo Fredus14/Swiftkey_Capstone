@@ -1,10 +1,9 @@
-library(shiny)
+require(shiny)
 require(markdown)
 
 shinyUI(
     navbarPage("Coursera NLP Capstone", inverse = FALSE, collapsible = FALSE, 
-               tabPanel("Prediction", (includeScript("Google_Analytics.js")),
-                        # includeCSS("bootstrap.css"),
+               tabPanel("Prediction", 
                         fluidRow(
                             sidebarPanel(width=3,
                                          h5("Text Input:"),
@@ -12,11 +11,11 @@ shinyUI(
                                                    "After initial loading (which takes about 8 seconds) this app will predict the next word in the sentence enterd below:",
                                                    "Thanks for stopping by"),
                                          # submitButton('Predict'),
-                                         sliderInput("max", 
-                                                     h5("Maximum Number of Words:"), 
-                                                     min = 10,  max = 200,  value = 100),
+                                         ## sliderInput("max", 
+                                                     ## h5("Maximum Number of Words:"), 
+                                                     ## min = 10,  max = 200,  value = 100),
                                          br(),
-                                         actionButton("update", "Update Word Cloud"),
+                                         ## actionButton("update", "Update Word Cloud"),
                                          hr(),
                                          helpText(h5("Help Instruction:")),
                                          helpText("To predict the nesxt word in the sentence:"),
@@ -59,11 +58,11 @@ shinyUI(
                                        p()
                                 ),
                                 column(5,
-                                       h3("Word Cloud Diagram"),
+                                       h3(" "),
                                        
-                                       plotOutput("wordCloud"), # wordcloud
+                                       # plotOutput("wordCloud"), # wordcloud
                                        br()
-                                )
+                                 )
                                 )
                             )
                ),
@@ -244,7 +243,7 @@ shinyUI(
                                                         ## h5("Please use the slides", code("navigation bar"), 
                                                         ##   "on the right-bottom corner of the page."),
                                                         ## hr(),
-                                                        h5("To browse the released version of this slides presentation,
+                                                        h5("To browse the released version of the slide presentation,
                                                          please visit the RPubs link below."),
                                                         a("Capstone Presentation", href="http://rpubs.com/bengapple/71376")
                                                  )

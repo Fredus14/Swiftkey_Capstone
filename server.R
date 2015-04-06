@@ -1,10 +1,9 @@
-library(shiny)
-library(wordcloud)
+require(shiny)
+require(wordcloud)
 load('quatrgrams_model.RData',.GlobalEnv)
 load('ngrams_model.RData',.GlobalEnv)
 source('Predict_func.R')
 source('Predict_func2.R')
-
 shinyServer(function(input, output) {
     dataInput <- reactive(predictNgrams(input$entry))
     
@@ -39,11 +38,11 @@ shinyServer(function(input, output) {
     })
     # Make the wordcloud drawing predictable during a session
     wordcloud_rep <- repeatable(wordcloud)
-    output$wordCloud <- renderPlot({
-        v <- terms()
-        wordcloud_rep(v[,2], v[,1], max.words=input$max, scale=c(5,1.5),
-                      colors=brewer.pal(4, "Dark2"))
-    })
+    #output$wordCloud <- renderPlot({
+        #v <- terms()
+        #wordcloud_rep(v[,2], v[,1], max.words=input$max, scale=c(4,1),
+                      #colors=brewer.pal(4, "Dark2"))
+    #})
     
     output$modelTable = renderDataTable({
         Quatrgrams_models
